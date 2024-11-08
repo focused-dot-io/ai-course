@@ -7,8 +7,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
 from langchain_openai import ChatOpenAI
 
-from aicourse.prompt_engineering.prompts.costar_prompt import costar_prompt
-from aicourse.prompt_engineering.prompts.generic_prompt import generic_prompt
+from aicourse.prompt_engineering.prompts.national_parks.costar_prompt import costar_prompt
+from aicourse.prompt_engineering.prompts.national_parks.generic_prompt import generic_prompt
 
 load_dotenv()
 llm = ChatOpenAI(

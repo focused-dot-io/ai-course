@@ -13,7 +13,7 @@ llm = ChatOpenAI(
 )
 
 
-def run_costar_examples():
+def run_example():
     prompt = """
     # Instructions
     =================
@@ -48,4 +48,4 @@ def run_costar_examples():
 
 
 if __name__ == "__main__":
-    run_costar_examples()
+    run_example()
