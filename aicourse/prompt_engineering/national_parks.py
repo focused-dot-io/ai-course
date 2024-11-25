@@ -20,7 +20,7 @@ llm = ChatOpenAI(
 
 def run_costar_examples():
     GENERIC_PROMPT = ChatPromptTemplate.from_template(generic_prompt)
-    COSTAR_PROMPT = ChatPromptTemplate.from_template(costar_prompt)
+    # COSTAR_PROMPT = ChatPromptTemplate.from_template(costar_prompt)
     destination = "Rocky Mountain National Park"
     season = "summer"
     duration = "3 days"
@@ -37,9 +37,9 @@ def run_costar_examples():
 
     run_rag_chain(GENERIC_PROMPT, context, destination, season, duration, interests)
 
-    print("COSTAR PROMPT")
-    print("====================================")
-    run_rag_chain(COSTAR_PROMPT, context, destination, season, duration, interests)
+    # print("COSTAR PROMPT")
+    # print("====================================")
+    # run_rag_chain(COSTAR_PROMPT, context, destination, season, duration, interests)
 
 
 def get_internet_articles(destination: str, season: str, duration: str, interests: str) -> []:

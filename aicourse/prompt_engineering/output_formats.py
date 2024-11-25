@@ -14,6 +14,7 @@ llm = ChatOpenAI(
 
 
 def run_example():
+    # TODO: Update the prompt to output xml.
     prompt = """
     # Instructions
     =================
