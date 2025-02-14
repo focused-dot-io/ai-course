@@ -14,6 +14,8 @@ The summary will be used as the youtube video description. It'll be read by anyo
 # RESPONSE
 ==================
 Keep summaries short and concise. Only a few sentences.
+Make the summary super energetic and fantastical.
+Add three appropriate hashtags at the end of the summary.
 
 # START ANALYSIS
 ==================

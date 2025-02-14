@@ -39,13 +39,13 @@ def summarize_transcript(file_text):
 
     return rag_chain.invoke({
         "transcript": file_text,
-    })
+    }).content
 
 
 def main():
-    # for file in files:
-    file_text = get_file_contents(files[0])
-    summary = summarize_transcript(file_text)
-    print(summary)
+    for file in files:
+        file_text = get_file_contents(file)
+        summary = summarize_transcript(file_text)
+        print(summary)
 
-main()
+# main()
