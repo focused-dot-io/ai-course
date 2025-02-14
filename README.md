@@ -15,5 +15,6 @@ LANGCHAIN_API_KEY=<Your Langsmith/Langchain api key>
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_PROJECT="AICOURSE"
 LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
+DEEPGRAM_API_KEY=<Your Deepgram API key>
 ```
 
