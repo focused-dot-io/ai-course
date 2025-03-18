@@ -1,6 +1,6 @@
 import asyncio
-import json
 import os
+from pathlib import Path
 import time as t
 
 from deepgram import DeepgramClient, FileSource, PrerecordedOptions
@@ -15,20 +15,24 @@ PREFIXES = [
 load_dotenv()
 
 async def main(prefixes):
+    # Get the current script's directory
+    script_dir = Path(__file__).parent
+    audio_dir = script_dir.parent / 'audio'
+    
     for prefix in prefixes:
-        filename = "../audio/" + prefix + ".mp3"
+        filename = audio_dir / f'{prefix}.mp3'
         deepgram = DeepgramClient(os.getenv("DEEPGRAM_API_KEY"))
 
-        print("Currently transcribing ", filename)
+        print("Currently transcribing", filename)
 
-        # start transcribing
+        #transcription
         with open(filename, 'rb') as file:
             buffer_data = file.read()
 
-        # write results
         payload: FileSource = {
-            "buffer": buffer_data,
+            "buffer": buffer_data
         }
+
         options = PrerecordedOptions(
             model="nova-2",
             smart_format=True
@@ -40,5 +44,6 @@ async def main(prefixes):
             transcript = response.results.channels[0].alternatives[0].transcript
             file.write(transcript)
 
-        print(f'DONE WITH {prefix}.mp3')
+        print(f"DONE WITH {prefix}.mp3")
+
 asyncio.run(main(PREFIXES))

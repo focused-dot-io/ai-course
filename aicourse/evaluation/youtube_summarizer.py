@@ -3,7 +3,6 @@ from operator import itemgetter
 
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI
 from langsmith import traceable
 
@@ -33,9 +32,13 @@ def get_file_contents(file_name):
 @traceable
 def summarize_transcript(file_text):
     PROMPT_TEMPLATE = ChatPromptTemplate.from_template(summarize_transcript_prompt)
-    rag_chain = RunnablePassthrough(
-        transcript=itemgetter("transcript")
-    ) | PROMPT_TEMPLATE | llm
+
+    # You don't need the passthrough for this one. I was a derp.
+    # rag_chain = RunnablePassthrough(
+    #     transcript=itemgetter("transcript")
+    # )   PROMPT_TEMPLATE | llm
+
+    rag_chain = PROMPT_TEMPLATE | llm
 
     return rag_chain.invoke({
         "transcript": file_text,
