@@ -4,6 +4,7 @@ This is the repository for examples on the FocusedLabs AI RAG course.
 - Obtain an OpenAI API key
 - Obtain a Tavily API key (free)
 - Sign up for Langsmith and get an API key
+- Obtain a DeepGram API key
 
 # Setup:
 - Install any dependencies with `poetry install`
