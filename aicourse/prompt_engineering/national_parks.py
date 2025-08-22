@@ -1,22 +1,23 @@
+import json
 from operator import itemgetter
 
 from dotenv import load_dotenv
-from langchain_community.tools import TavilySearchResults
+from langchain_tavily import TavilySearch
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
 from langchain_openai import ChatOpenAI
 from langsmith import traceable
 
-from aicourse.prompt_engineering.prompts.national_parks.costar_prompt import costar_prompt
-from aicourse.prompt_engineering.prompts.national_parks.generic_prompt import generic_prompt
+from aicourse.prompt_engineering.prompts.national_parks.costar_prompt import (
+    costar_prompt,
+)
+from aicourse.prompt_engineering.prompts.national_parks.generic_prompt import (
+    generic_prompt,
+)
 
 load_dotenv()
-llm = ChatOpenAI(
-    temperature=0,
-    model='gpt-4-1106-preview',
-    streaming=True
-)
+llm = ChatOpenAI(temperature=0, model="gpt-4o", streaming=True)
 
 
 def run_costar_examples():
@@ -27,16 +28,13 @@ def run_costar_examples():
     duration = "3 days"
     interests = "hiking, wildlife watching"
 
-    context = get_internet_articles(
-        destination,
-        season,
-        duration,
-        interests
-    )
+    context = get_internet_articles(destination, season, duration, interests)
     print("GENERIC PROMPT")
     print("====================================")
 
-    result = run_rag_chain(GENERIC_PROMPT, context, destination, season, duration, interests)
+    result = run_rag_chain(
+        GENERIC_PROMPT, context, destination, season, duration, interests
+    )
 
     print("ANSWER")
     print("====================================")
@@ -48,7 +46,9 @@ def run_costar_examples():
 
     print("COSTAR PROMPT")
     print("====================================")
-    result = run_rag_chain(COSTAR_PROMPT, context, destination, season, duration, interests)
+    result = run_rag_chain(
+        COSTAR_PROMPT, context, destination, season, duration, interests
+    )
 
     print("ANSWER")
     print("====================================")
@@ -59,35 +59,42 @@ def run_costar_examples():
     print(result["docs"])
 
 
-def get_internet_articles(destination: str, season: str, duration: str, interests: str) -> []:
+def get_internet_articles(
+    destination: str, season: str, duration: str, interests: str
+) -> list:
     question = f"Planning a trip to {destination} in {season} for {duration} with interests in {interests}"
 
-    web_docs = TavilySearchResults(k=5).invoke({"query": question})
-    web_results = [Document(page_content=d["content"], metadata={"source": d["url"]}) for d in web_docs]
+    tavily_search = TavilySearch(max_results=5)
+    search_response = tavily_search.invoke({"query": question})
+
+    # Extract results from the response dict
+    web_results = [
+        Document(page_content=result["content"], metadata={"source": result["url"]})
+        for result in search_response["results"]
+    ]
 
     return web_results
 
 
 @traceable(name="national parks")
 def run_rag_chain(prompt, context, destination, season, duration, interests):
-    rag_chain = (RunnableParallel(
+    rag_chain = RunnableParallel(
         context=itemgetter("context"),
         destination=itemgetter("destination"),
         duration=itemgetter("duration"),
         season=itemgetter("season"),
-        interests=itemgetter("interests")
-    ) | RunnableParallel(
-        answer=(prompt | llm),
-        docs=itemgetter("context")
-    ))
+        interests=itemgetter("interests"),
+    ) | RunnableParallel(answer=(prompt | llm), docs=itemgetter("context"))
 
-    return rag_chain.invoke({
-        "context": context,
-        "destination": destination,
-        "season": season,
-        "duration": duration,
-        "interests": interests
-    })
+    return rag_chain.invoke(
+        {
+            "context": context,
+            "destination": destination,
+            "season": season,
+            "duration": duration,
+            "interests": interests,
+        }
+    )
 
 
 if __name__ == "__main__":

@@ -6,11 +6,7 @@ from langchain_core.runnables import RunnableParallel
 from langchain_openai import ChatOpenAI
 
 load_dotenv()
-llm = ChatOpenAI(
-    temperature=0,
-    model='gpt-4-1106-preview',
-    streaming=True
-)
+llm = ChatOpenAI(temperature=0, model="gpt-4o", streaming=True)
 
 
 def run_example():
@@ -33,15 +29,16 @@ def run_example():
     genre = "rock"
     year = "2021"
 
-    rag_chain = RunnableParallel(
-        genre=itemgetter("genre"),
-        year=itemgetter("year"),
-    ) | PROMPT_TEMPLATE | llm
+    rag_chain = (
+        RunnableParallel(
+            genre=itemgetter("genre"),
+            year=itemgetter("year"),
+        )
+        | PROMPT_TEMPLATE
+        | llm
+    )
 
-    result = rag_chain.invoke({
-        "genre": genre,
-        "year": year
-    })
+    result = rag_chain.invoke({"genre": genre, "year": year})
 
     print("ANSWER")
     print("====================================")

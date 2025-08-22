@@ -11,14 +11,14 @@ from aicourse.evaluation.prompts.summarize_transcript import summarize_transcrip
 load_dotenv()
 llm = ChatOpenAI(
     temperature=0,
-    model='gpt-4-1106-preview',
+    model="gpt-4o",
 )
 
 files = [
     "Chat With Your PDFs： Part 1 - An End to End LangChain Tutorial.txt",
-    "Chat With Your PDFs： Part 2 - Frontend - An End to End LangChain Tutorial.txt",
-    "Unlock Advanced RAG Secrets： LangChain Tutorial Finale.txt",
-    "Unlock the Power of LangChain： Deploying to Production Made Easy.txt"
+    # "Chat With Your PDFs： Part 2 - Frontend - An End to End LangChain Tutorial.txt",
+    # "Unlock Advanced RAG Secrets： LangChain Tutorial Finale.txt",
+    # "Unlock the Power of LangChain： Deploying to Production Made Easy.txt",
 ]
 
 
@@ -40,9 +40,11 @@ def summarize_transcript(file_text):
 
     rag_chain = PROMPT_TEMPLATE | llm
 
-    return rag_chain.invoke({
-        "transcript": file_text,
-    }).content
+    return rag_chain.invoke(
+        {
+            "transcript": file_text,
+        }
+    ).content
 
 
 def main():
@@ -51,4 +53,6 @@ def main():
         summary = summarize_transcript(file_text)
         print(summary)
 
-# main()
+
+if __name__ == "__main__":
+    main()

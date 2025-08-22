@@ -5,15 +5,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
 from langchain_openai import ChatOpenAI
 
-from aicourse.prompt_engineering.prompts.advertising.costar_prompt_ads import costar_prompt_advertising
-from aicourse.prompt_engineering.prompts.advertising.generic_prompt_ads import generic_prompt_advertising
+from aicourse.prompt_engineering.prompts.advertising.costar_prompt_ads import (
+    costar_prompt_advertising,
+)
+from aicourse.prompt_engineering.prompts.advertising.generic_prompt_ads import (
+    generic_prompt_advertising,
+)
 
 load_dotenv()
-llm = ChatOpenAI(
-    temperature=0,
-    model='gpt-4-1106-preview',
-    streaming=True
-)
+llm = ChatOpenAI(temperature=0, model="gpt-4o", streaming=True)
 
 
 def run_costar_examples():
@@ -35,15 +35,16 @@ def run_costar_examples():
 
 
 def run_rag_chain(prompt, product, target_audience):
-    rag_chain = RunnableParallel(
-        product=itemgetter("product"),
-        target_audience=itemgetter("target_audience"),
-    ) | prompt | llm
+    rag_chain = (
+        RunnableParallel(
+            product=itemgetter("product"),
+            target_audience=itemgetter("target_audience"),
+        )
+        | prompt
+        | llm
+    )
 
-    result = rag_chain.invoke({
-        "product": product,
-        "target_audience": target_audience
-    })
+    result = rag_chain.invoke({"product": product, "target_audience": target_audience})
 
     print("ANSWER")
     print("====================================")
