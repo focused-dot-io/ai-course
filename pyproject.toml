@@ -1,22 +1,21 @@
-[tool.poetry]
+[project]
 name = "aicourse"
 version = "0.1.0"
 description = ""
-authors = ["Sarah Kainec <Sarah.Kainec@focusedlabs.io>"]
+authors = [{name = "Sarah Kainec", email = "Sarah.Kainec@focusedlabs.io"}]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.11"
-langchain = "^0.3.8"
-langchain-openai = "^0.3.5"
-python-dotenv = "^1.0.1"
-langchain-community = "^0.3.17"
-langsmith = "^0.3.8"
-deepgram-sdk = "^3.10.0"
-yt-dlp = "^2025.1.26"
-
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=0.3.8",
+    "langchain-openai>=0.3.5",
+    "python-dotenv>=1.0.1",
+    "langchain-community>=0.3.17",
+    "langsmith>=0.3.8",
+    "deepgram-sdk>=3.10.0",
+    "yt-dlp>=2025.1.26",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
