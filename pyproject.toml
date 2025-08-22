@@ -16,6 +16,7 @@ dependencies = [
     "langchain-core>=0.3.74",
     "langchain-text-splitters>=0.3.9",
     "langchain-tavily>=0.2.11",
+    "langgraph>=0.6.6",
 ]
 
 [build-system]
