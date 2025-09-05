@@ -35,14 +35,14 @@ API keys needed:
 
 ## 🏃‍♂️ Usage
 
-Run examples with: `uv run python aicourse/module/script.py`
+Run examples with: `uv run python src/module/script.py`
 
 ## 📁 Project Structure
 
 ```
-aicourse/
+src/
 ├── chatbot/             # LangGraph conversational AI
-├── evaluation/          # Model evaluation and testing  
+├── evaluation/          # Model evaluation and testing
 └── prompt_engineering/  # Prompt optimization
 ```
 
@@ -50,13 +50,13 @@ aicourse/
 
 ```bash
 # Prompt engineering with web search
-uv run python aicourse/prompt_engineering/national_parks.py
+uv run python src/prompt_engineering/national_parks.py
 
-# Interactive chatbot  
-uv run python aicourse/chatbot/conversation_bot.py
+# Interactive chatbot
+uv run python src/chatbot/conversation_bot.py
 
 # Evaluation examples
-uv run python aicourse/evaluation/evaluators/eval_summaries.py
+uv run python src/evaluation/evaluators/eval_summaries.py
 ```
 
 ## 🎓 Learning Path

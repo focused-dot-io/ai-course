@@ -5,7 +5,7 @@ from langchain_openai import ChatOpenAI
 from langsmith import Client, evaluate
 from langsmith.evaluation import LangChainStringEvaluator
 
-from aicourse.evaluation.youtube_summarizer import summarize_transcript
+from src.evaluation.youtube_summarizer import summarize_transcript
 
 load_dotenv()
 dataset_name = "youtube_summaries"
@@ -19,8 +19,7 @@ def call_chain(inputs: dict) -> str:
 eval_llm = ChatOpenAI(temperature=0.0, model="gpt-4o-mini")
 criterion = {"creativity": "Is this submission creative and imaginative?"}
 criteria_evaluator = LangChainStringEvaluator(
-    "labeled_criteria",
-    config={"criteria": criterion, "llm": eval_llm}
+    "labeled_criteria", config={"criteria": criterion, "llm": eval_llm}
 )
 
 

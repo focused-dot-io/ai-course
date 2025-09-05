@@ -7,7 +7,7 @@ for educational purposes in an AI course.
 
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, AIMessage
-from aicourse.chatbot.conversation_bot import ConversationBot
+from src.chatbot.conversation_bot import ConversationBot
 
 load_dotenv()
 
@@ -20,49 +20,39 @@ def demo_basic_chat():
     print("=" * 40)
 
     # Create chatbot
-    bot = ConversationBot(temperature=0.8)
+    bot = ConversationBot()
 
     # Single interaction
-    response, info = bot.chat("Hello! Can you explain what LangGraph is?")
+    response = bot.chat("Hello! Can you explain what LangGraph is?")
     print(f"User: Hello! Can you explain what LangGraph is?")
-    print(f"Bot:  {response}")
-    print(f"📊 Info: {info}\n")
+    print(f"Bot:  {response}\n")
 
 
 def demo_conversation_memory():
     """
-    Demonstrate conversation memory and context retention.
+    Demonstrate automatic conversation memory via LangGraph checkpointer.
     """
     print("🧠 Conversation Memory Demo")
     print("=" * 40)
 
     bot = ConversationBot()
-    conversation_history = []
+    thread_id = "ml-project-conversation"
 
     # First turn
     print("Turn 1:")
-    response1, _ = bot.chat(
-        "I'm working on a Python project about machine learning.", conversation_history
-    )
-    conversation_history.extend(
-        [
-            HumanMessage(
-                content="I'm working on a Python project about machine learning."
-            ),
-            AIMessage(content=response1),
-        ]
+    response1 = bot.chat(
+        "I'm working on a Python project about machine learning.", thread_id
     )
     print(f"User: I'm working on a Python project about machine learning.")
     print(f"Bot:  {response1}\n")
 
-    # Second turn - references previous context
+    # Second turn - automatically remembers previous context via checkpointer
     print("Turn 2:")
-    response2, info = bot.chat(
-        "What libraries would you recommend for my project?", conversation_history
+    response2 = bot.chat(
+        "What libraries would you recommend for my project?", thread_id
     )
     print(f"User: What libraries would you recommend for my project?")
-    print(f"Bot:  {response2}")
-    print(f"📊 Final info: {info}\n")
+    print(f"Bot:  {response2}\n")
 
 
 def demo_interactive_features():
@@ -72,15 +62,15 @@ def demo_interactive_features():
     print("⚡ Interactive Features Demo")
     print("=" * 40)
 
-    bot = ConversationBot(temperature=0.9)
+    bot = ConversationBot()
 
     # Creative response
-    response, _ = bot.chat("Write a haiku about artificial intelligence.")
+    response = bot.chat("Write a haiku about artificial intelligence.")
     print("User: Write a haiku about artificial intelligence.")
     print(f"Bot:  {response}\n")
 
     # Technical explanation
-    response, _ = bot.chat("Explain gradient descent in simple terms.")
+    response = bot.chat("Explain gradient descent in simple terms.")
     print("User: Explain gradient descent in simple terms.")
     print(f"Bot:  {response}\n")
 
@@ -101,7 +91,7 @@ def main():
 
         print("✅ All demos completed successfully!")
         print("\nTo try interactive mode, run:")
-        print("uv run python aicourse/chatbot/conversation_bot.py")
+        print("uv run python src/chatbot/conversation_bot.py")
 
     except Exception as e:
         print(f"❌ Error during demo: {e}")

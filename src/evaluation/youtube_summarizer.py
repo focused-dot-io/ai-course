@@ -6,7 +6,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langsmith import traceable
 
-from aicourse.evaluation.prompts.summarize_transcript import summarize_transcript_prompt
+from src.evaluation.prompts.summarize_transcript import summarize_transcript_prompt
 
 load_dotenv()
 llm = ChatOpenAI(

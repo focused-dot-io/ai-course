@@ -5,10 +5,10 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
 from langchain_openai import ChatOpenAI
 
-from aicourse.prompt_engineering.prompts.advertising.costar_prompt_ads import (
+from src.prompt_engineering.prompts.advertising.costar_prompt_ads import (
     costar_prompt_advertising,
 )
-from aicourse.prompt_engineering.prompts.advertising.generic_prompt_ads import (
+from src.prompt_engineering.prompts.advertising.generic_prompt_ads import (
     generic_prompt_advertising,
 )
 
