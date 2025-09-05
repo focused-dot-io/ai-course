@@ -17,7 +17,7 @@ SYSTEM_TEMPLATE = """You are a helpful and friendly AI assistant. You can:
 
 Keep your responses conversational and helpful.
 
-Relevant past conversations (there may not be any):
+Relevant information (there may not be any):
 {conversations}"""
 
 
