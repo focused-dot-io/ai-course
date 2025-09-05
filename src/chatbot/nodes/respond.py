@@ -20,6 +20,7 @@ Keep your responses conversational and helpful.
 Relevant past conversations (there may not be any):
 {conversations}"""
 
+
 def generate_response(state: ConversationState) -> ConversationState:
     """
     Generate AI response based on conversation history.
@@ -58,3 +59,35 @@ def generate_response(state: ConversationState) -> ConversationState:
 
     # Return updated state
     return {"messages": [response]}
+
+
+if __name__ == "__main__":
+    """Demo the response generation node."""
+    from dotenv import load_dotenv
+    from langchain_core.messages import HumanMessage, AIMessage
+
+    load_dotenv()
+
+    print("🧪 Testing Response Generation Node...")
+
+    # Test with empty retrieved conversations
+    test_state = {
+        "messages": [HumanMessage(content="What is machine learning?")],
+        "retrieved_conversations": [],
+    }
+
+    result = generate_response(test_state)
+    print(f"✅ Generated response: {result['messages'][0].content[:100]}...")
+
+    # Test with retrieved conversations
+    print("\n🔍 Testing with context...")
+    test_state_with_context = {
+        "messages": [HumanMessage(content="Tell me more about AI")],
+        "retrieved_conversations": [
+            "User asked about machine learning basics and supervised vs unsupervised learning",
+            "Discussion about neural networks and deep learning applications",
+        ],
+    }
+
+    result2 = generate_response(test_state_with_context)
+    print(f"✅ Response with context: {result2['messages'][0].content[:100]}...")

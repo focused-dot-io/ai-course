@@ -87,3 +87,38 @@ def store_conversation_summary(state: ConversationState) -> ConversationState:
     except Exception as e:
         print(f"❌ Storage error: {e}")
         return {"messages": [SystemMessage(content="❌ Could not save conversation.")]}
+
+
+if __name__ == "__main__":
+    """Demo the storage node."""
+    from dotenv import load_dotenv
+    from langchain_core.messages import HumanMessage, AIMessage
+
+    load_dotenv()
+
+    print("🧪 Testing Storage Node...")
+
+    # Test conversation summarization
+    test_messages = [
+        HumanMessage(content="What's the difference between Docker and VMs?"),
+        AIMessage(
+            content="Docker uses containerization which is more lightweight than VMs. Containers share the host OS kernel while VMs have their own OS."
+        ),
+        HumanMessage(content="Which is better for microservices?"),
+        AIMessage(
+            content="Docker is generally preferred for microservices because it's lighter, faster to start, and easier to scale."
+        ),
+    ]
+
+    # Test summarization function directly
+    summary = summarize_conversation(test_messages)
+    if summary:
+        print(f"✅ Generated summary:\n{summary[:200]}...")
+    else:
+        print("❌ No summary generated")
+
+    # Test full storage node
+    test_state = {"messages": test_messages, "retrieved_conversations": []}
+
+    result = store_conversation_summary(test_state)
+    print(f"✅ Storage result: {result['messages'][-1].content}")

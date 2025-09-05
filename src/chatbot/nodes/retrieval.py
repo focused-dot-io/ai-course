@@ -63,9 +63,13 @@ if __name__ == "__main__":
     result_state = search_relevant_conversations(test_state)
 
     print(f"Original: {len(test_state['messages'])} messages")
-    print(f"Result: {len(result_state['messages'])} messages")
+    print(
+        f"Retrieved conversations: {len(result_state.get('retrieved_conversations', []))}"
+    )
 
-    if len(result_state["messages"]) > len(test_state["messages"]):
-        print("✅ Context added!")
+    if result_state.get("retrieved_conversations"):
+        print("✅ Context found!")
+        for i, conv in enumerate(result_state["retrieved_conversations"], 1):
+            print(f"  {i}. {conv[:50]}...")
     else:
-        print("ℹ️ No context added")
+        print("ℹ️ No context found")
