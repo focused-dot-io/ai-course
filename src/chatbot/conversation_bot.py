@@ -117,6 +117,10 @@ class ConversationBot:
                 user_input = input("You: ").strip()
 
                 if user_input.lower() == "quit":
+                    # Let the graph handle the storage logic
+                    ai_response = self.chat(user_input, thread_id)
+                    if ai_response:  # Only print if there's a response
+                        print(f"Bot: {ai_response}")
                     print("👋 Goodbye!")
                     break
 
@@ -153,21 +157,6 @@ def main():
     Example usage of the ConversationBot with streaming responses.
     """
     bot = ConversationBot()
-
-    # Demo streaming vs non-streaming
-    print("🚀 ConversationBot Streaming Demo")
-    print("=" * 50)
-
-    # Quick streaming demo
-    print("\n💬 Quick Streaming Demo:")
-    print("User: Hello! Can you tell me a fun fact?")
-    print("Bot: ", end="", flush=True)
-
-    for chunk in bot.chat_stream("Hello! Can you tell me a fun fact?"):
-        print(chunk, end="", flush=True)
-    print("\n")
-
-    print("=" * 50)
 
     # Start interactive session with streaming enabled by default
     bot.start_conversation(streaming=True)

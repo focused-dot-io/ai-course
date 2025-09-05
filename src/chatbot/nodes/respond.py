@@ -4,10 +4,23 @@ Response generation node for the conversation chatbot.
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chat_models import init_chat_model
-from langgraph.graph import MessagesState
+from typing import List
+
+from src.chatbot.state import ConversationState
 
 
-def generate_response(state: MessagesState) -> MessagesState:
+SYSTEM_TEMPLATE = """You are a helpful and friendly AI assistant. You can:
+- Answer questions on any topic
+- Maintain context from our conversation
+- Provide detailed explanations when asked
+- Be creative and engaging in your responses
+
+Keep your responses conversational and helpful.
+
+Relevant past conversations (there may not be any):
+{conversations}"""
+
+def generate_response(state: ConversationState) -> ConversationState:
     """
     Generate AI response based on conversation history.
 
@@ -23,25 +36,25 @@ def generate_response(state: MessagesState) -> MessagesState:
     # Create the system prompt
     system_prompt = ChatPromptTemplate.from_messages(
         [
+            ("system", SYSTEM_TEMPLATE),
             (
-                "system",
-                """You are a helpful and friendly AI assistant. You can:
-- Answer questions on any topic
-- Maintain context from our conversation
-- Provide detailed explanations when asked
-- Be creative and engaging in your responses
-
-Keep your responses conversational and helpful.""",
-            ),
-            ("placeholder", "{messages}"),
+                "placeholder",
+                "{messages}",
+            ),  # This expands to the full conversation history
         ]
     )
+
+    # Prepare conversations list
+    retrieved_conversations = state.get("retrieved_conversations", [])
+    conversations = "\n".join(f"- {conv}" for conv in retrieved_conversations)
 
     # Create the chain
     chain = system_prompt | llm
 
     # Generate response
-    response = chain.invoke({"messages": state["messages"]})
+    response = chain.invoke(
+        {"messages": state["messages"], "conversations": conversations}
+    )
 
     # Return updated state
     return {"messages": [response]}
