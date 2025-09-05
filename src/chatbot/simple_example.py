@@ -90,8 +90,11 @@ def main():
         demo_interactive_features()
 
         print("✅ All demos completed successfully!")
-        print("\nTo try interactive mode, run:")
-        print("uv run python src/chatbot/conversation_bot.py")
+        print("\n🚀 Interactive Options:")
+        print("Streaming mode:     uv run python src/chatbot/conversation_bot.py")
+        print(
+            "Non-streaming mode: uv run python -c 'from src.chatbot.conversation_bot import ConversationBot; ConversationBot().start_conversation(streaming=False)'"
+        )
 
     except Exception as e:
         print(f"❌ Error during demo: {e}")

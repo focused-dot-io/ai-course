@@ -17,8 +17,8 @@ def generate_response(state: MessagesState) -> MessagesState:
     Returns:
         Updated state with AI response added
     """
-    # Initialize the LLM
-    llm = init_chat_model("openai:gpt-4o", temperature=0.7)
+    # Initialize the LLM with streaming enabled
+    llm = init_chat_model("openai:gpt-4o", temperature=0.7, streaming=True)
 
     # Create the system prompt
     system_prompt = ChatPromptTemplate.from_messages(
