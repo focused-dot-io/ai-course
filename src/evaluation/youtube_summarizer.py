@@ -3,16 +3,13 @@ from operator import itemgetter
 
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 from langsmith import traceable
 
 from src.evaluation.prompts.summarize_transcript import summarize_transcript_prompt
 
 load_dotenv()
-llm = ChatOpenAI(
-    temperature=0,
-    model="gpt-4o",
-)
+llm = init_chat_model("openai:gpt-4o", temperature=0)
 
 files = [
     "Chat With Your PDFs： Part 1 - An End to End LangChain Tutorial.txt",

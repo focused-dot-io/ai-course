@@ -3,7 +3,7 @@ Response generation node for the conversation chatbot.
 """
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 from langgraph.graph import MessagesState
 
 
@@ -18,7 +18,7 @@ def generate_response(state: MessagesState) -> MessagesState:
         Updated state with AI response added
     """
     # Initialize the LLM
-    llm = ChatOpenAI(model="gpt-4o", temperature=0.7)
+    llm = init_chat_model("openai:gpt-4o", temperature=0.7)
 
     # Create the system prompt
     system_prompt = ChatPromptTemplate.from_messages(

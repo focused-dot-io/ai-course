@@ -1,7 +1,7 @@
 import re
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 from langsmith import Client, evaluate
 from langsmith.evaluation import LangChainStringEvaluator
 
@@ -16,7 +16,7 @@ def call_chain(inputs: dict) -> str:
     return summarize_transcript(inputs["file_text"])
 
 
-eval_llm = ChatOpenAI(temperature=0.0, model="gpt-4o-mini")
+eval_llm = init_chat_model("openai:gpt-4o-mini", temperature=0.0)
 criterion = {"creativity": "Is this submission creative and imaginative?"}
 criteria_evaluator = LangChainStringEvaluator(
     "labeled_criteria", config={"criteria": criterion, "llm": eval_llm}

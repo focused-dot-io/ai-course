@@ -6,7 +6,7 @@ from langchain_tavily import TavilySearch
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 from langsmith import traceable
 
 from src.prompt_engineering.prompts.national_parks.costar_prompt import (
@@ -17,7 +17,7 @@ from src.prompt_engineering.prompts.national_parks.generic_prompt import (
 )
 
 load_dotenv()
-llm = ChatOpenAI(temperature=0, model="gpt-4o", streaming=True)
+llm = init_chat_model("openai:gpt-4o", temperature=0, streaming=True)
 
 
 def run_costar_examples():

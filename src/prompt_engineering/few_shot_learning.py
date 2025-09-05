@@ -3,10 +3,10 @@ from operator import itemgetter
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 
 load_dotenv()
-llm = ChatOpenAI(temperature=0, model="gpt-4o", streaming=True)
+llm = init_chat_model("openai:gpt-4o", temperature=0, streaming=True)
 
 
 def run_example():
